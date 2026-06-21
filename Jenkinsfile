@@ -11,6 +11,7 @@ pipeline {
         stage('Build and Start Containers') {
             steps {
                 sh '''
+		docker rm -f mysql-db flask-app || true
                 docker compose down || true
                 docker compose up -d --build
                 '''
