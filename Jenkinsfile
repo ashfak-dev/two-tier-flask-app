@@ -10,21 +10,23 @@ pipeline {
 
         stage('Build and Start Containers') {
             steps {
-                sh 'cd /root/two-tier-flask-app && docker compose down || true'
-                sh 'cd /root/two-tier-flask-app && docker compose up -d --build'
+                sh '''
+                docker compose down || true
+                docker compose up -d --build
+                '''
             }
         }
 
         stage('Check Running Containers') {
             steps {
-                sh 'docker ps'
+                sh 'docker ps -a'
             }
         }
     }
 
     post {
         success {
-            echo 'Deployment successful. Flask app is live on port 5000.'
+            echo 'Pipeline executed successfully!'
         }
         failure {
             echo 'Pipeline failed.'
